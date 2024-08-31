@@ -1,0 +1,49 @@
+import time
+import random
+
+emergency_database = {
+    "not breathing": "Start CPR: Push hard and fast in the center of the chest. Give rescue breaths after every 30 compressions.",
+    "bleeding": "Apply pressure to the wound with a clean cloth. Keep the person calm and still.",
+    "choking": "Perform the Heimlich maneuver: Stand behind the person, wrap your arms around their waist, and thrust inward and upward.",
+}
+
+def search_emergency(emergency):
+    print("I am checking what you should do immediately, meanwhile, can you tell me which area you are located right now?")
+    time.sleep(15)  # Artificial delay to simulate processing time
+    return emergency_database.get(emergency.lower(), "I'm sorry, I don't have information on this emergency. Please stay calm and wait for the doctor.")
+
+def initial_node():
+    while True:
+        user_input = input("Is this an emergency or would you like to leave a message? (emergency/message): ").strip().lower()
+        if user_input == "emergency":
+            handle_emergency()
+            break
+        elif user_input == "message":
+            leave_message()
+            break
+        else:
+            print("I don't understand that. Please type 'emergency' or 'message'.")
+
+def handle_emergency():
+    emergency = input("Please describe the emergency (e.g., not breathing, bleeding, choking): ").strip().lower()
+    
+    next_step = search_emergency(emergency)
+    
+    location = input("Please provide your current location: ").strip()
+    eta = random.randint(5, 15)  # Random arrival time
+    print(f"Dr. Adrin will be coming to your location in approximately {eta} minutes.")
+    
+    if eta > 10:
+        print(f"I understand that you are worried that Dr. Adrin will arrive too late. Meanwhile, we suggest that you {next_step}")
+    else:
+        print("Please hold just a sec...")
+        print(f"Next step: {next_step}")
+    
+    print("Don't worry, please follow these steps, Dr. Adrin will be with you shortly.")
+
+def leave_message():
+    message = input("Please leave your message: ").strip()
+    print(f"Thanks for the message, we will forward it to Dr. Adrin.")
+
+if __name__ == "__main__":
+    initial_node()
